@@ -1,0 +1,359 @@
+<main class="w-100 h-75 row d-flex justify-content-center align-items-center">
+  <mat-card class="col-md-6 mx-1 col-sm-12 mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>Currículo de <span class="text-primary">{{userDetailsForm.get('name')?.value ?? ''}}</span>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-stepper>
+        <mat-step [stepControl]="userDetailsForm" [completed]="userDetailsForm.valid" [editable]="true" [hasError]="userDetailsForm.invalid">
+          <form [formGroup]="userDetailsForm">
+            <ng-template matStepLabel>Dados pessoais</ng-template>
+
+            <div class="row">
+              <mat-form-field class="col-md-12 my-3">
+                <input matInput matNativeControl placeholder="Digite seu nome completo" formControlName="name" required>
+                <mat-error *ngIf="userDetailsForm.get('name')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-error *ngIf="userDetailsForm.get('name')?.hasError('minlength')">Digite pelo menos 5 caracteres</mat-error>
+                <mat-icon matSuffix>person</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field class="col-md-6">
+                <input matInput matNativeControl placeholder="Digite seu melhor email" formControlName="email" required>
+                <mat-error *ngIf="userDetailsForm.get('email')?.hasError('email')">Digite um email válido</mat-error>
+                <mat-error *ngIf="userDetailsForm.get('email')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>mail</mat-icon>
+              </mat-form-field>
+              <mat-form-field class="col-md-6">
+                <input matInput matNativeControl placeholder="Digite seu melhor telefone" formControlName="phone" required>
+                <mat-error *ngIf="userDetailsForm.get('phone')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>phone</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field class="col-md-4 my-3">
+                <mat-select placeholder="Escolha sua nacionalidade" formControlName="nacionality" required>
+                  <mat-option [value]="null">--</mat-option>
+                  <mat-option *ngFor="let nacionality of nacionalities" [value]="nacionality.name">
+                    {{nacionality.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userDetailsForm.get('nacionality')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>nacionality</mat-icon>
+              </mat-form-field>
+              <mat-form-field class="col-md-4 my-3">
+                <mat-select placeholder="Escolha seu status social" formControlName="social_status" required>
+                  <mat-option [value]="null">--</mat-option>
+                  <mat-option *ngFor="let social_status of socialStatus" [value]="social_status.name">
+                    {{social_status.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userDetailsForm.get('social_status')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>nacionality</mat-icon>
+              </mat-form-field>
+              <mat-form-field class="col-md-4 my-3">
+                <input matInput formControlName="date_born" required [matDatepicker]="picker" placeholder="Selecione a data de nascimento" matNativeControl>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="userDetailsForm.get('date_born')?.hasError('required')">Campo obrigatório</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field class="col-md-4 my-3">
+                <mat-select placeholder="Escolha o Estado" formControlName="state" required>
+                  <mat-option [value]="null">--</mat-option>
+                  <mat-option *ngFor="let state of states" [value]="state.sigla">
+                    {{state.name}} - {{state.sigla}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userDetailsForm.get('state')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>nacionality</mat-icon>
+              </mat-form-field>
+              <mat-form-field class="col-md-4 my-3">
+                <mat-select placeholder="Escolha a Cidade" formControlName="city" required>
+                  <mat-option [value]="null">--</mat-option>
+                  <mat-option *ngFor="let city of cities" [value]="city.name">
+                    {{city.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userDetailsForm.get('city')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>nacionality</mat-icon>
+              </mat-form-field>
+              <mat-form-field class="col-md-4 my-3">
+                <input matInput matNativeControl placeholder="Digite seu bairro" formControlName="district" required>
+                <mat-error *ngIf="userDetailsForm.get('district')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>person</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field class="col-md-12 my-3">
+                <textarea matInput matNativeControl placeholder="Breve descrição do objetivo" cdkTextareaAutosize="false" formControlName="objective" required></textarea>
+                <mat-error *ngIf="userDetailsForm.get('objective')?.hasError('required')">Campo obrigatório</mat-error>
+                <mat-icon matSuffix>calendary</mat-icon>
+              </mat-form-field>
+            </div>
+
+          <button mat-raised-button class="float-end" [disabled]="!userDetailsForm.invalid">Próximo</button>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="scholarityForm" [completed]="scholarityForm.valid" [editable]="true" [hasError]="scholarityForm.touched && scholarityForm.invalid">
+          <ng-template matStepLabel>Escolaridade</ng-template>
+          <form [formGroup]="scholarityForm" class="mb-5">
+            <ng-container formArrayName="formations">
+              <ng-container *ngFor="let formation of formations.controls; index as index">
+                <ng-container [formGroupName]="index">
+                  <mat-card class="bg-light mat-elevation-z8 my-3">
+                    <mat-card-header class="w-100 d-flex justify-content-end">
+                      <mat-icon color="warn" style="cursor: pointer" (click)="formations.removeAt(index)">delete</mat-icon>
+                    </mat-card-header>
+                    <div class="row">
+                      <mat-form-field class="col-md-6 my-3">
+                        <input matInput matNativeControl placeholder="Digite o nome do instituto" formControlName="institute" required>
+                        <mat-error *ngIf="formation.get('institute')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-6 my-3">
+                        <input matInput matNativeControl placeholder="Digite o nome do curso" formControlName="title" required>
+                        <mat-error *ngIf="formation.get('institute')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field class="col-md-6 my-3">
+                        <mat-select placeholder="Escolha o grau da escolaridade" formControlName="scholarity_level" required>
+                          <mat-option [value]="null">--</mat-option>
+                          <mat-option *ngFor="let scholarityLevel of scholarityLevels" [value]="scholarityLevel.name">
+                            {{scholarityLevel.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formation.get('scholarity_level')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>nacionality</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-3 my-3">
+                        <input matInput matNativeControl placeholder="Iniciou em" formControlName="started_at" required>
+                        <mat-error *ngIf="formation.get('started_at')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>calendary</mat-icon>
+                        <mat-hint>
+                          <mat-checkbox color="primary" formControlName="still_studying" (change)="formation.get('finished_at')?.disabled ? formation.get('finished_at')?.enable() : formation.get('finished_at')?.disable()">Ainda cursando?</mat-checkbox>
+                        </mat-hint>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-3 my-3">
+                        <input matInput matNativeControl placeholder="Terminou em" formControlName="finished_at" required>
+                        <mat-error *ngIf="formation.get('finished_at')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field class="col-md-6 my-3">
+                        <mat-select placeholder="Escolha o Estado" formControlName="state" required>
+                          <mat-option [value]="null">--</mat-option>
+                          <mat-option *ngFor="let state of states" [value]="state.sigla">
+                            {{state.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="userDetailsForm.get('state')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>nacionality</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-6 my-3">
+                        <mat-select placeholder="Escolha a Cidade" formControlName="city" required>
+                          <mat-option [value]="null">--</mat-option>
+                          <mat-option *ngFor="let city of citiesScholarity" [value]="city.name">
+                            {{city.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="userDetailsForm.get('city')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>nacionality</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </mat-card>
+                </ng-container>
+              </ng-container>
+              <div class="w-100 mt-3 d-flex justify-content-center">
+                <button mat-raised-button color="primary" (click)="addFormation()">
+                  Adicionar escolaridade<mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </ng-container>
+          </form>
+          <button mat-raised-button matStepperNext class="float-end" [disabled]="!scholarityForm.invalid">Próximo</button>
+          <button mat-raised-button matStepperPrevious class="float-end mx-2">Anterior</button>
+        </mat-step>
+        <mat-step [stepControl]="experienceForm" [completed]="experienceForm.valid" [editable]="true" [hasError]="experienceForm.touched && experienceForm.invalid">
+          <ng-template matStepLabel>Experiência</ng-template>
+          <form [formGroup]="experienceForm" class="mb-5">
+            <ng-container formArrayName="experiences">
+              <ng-container *ngFor="let experience of experiences.controls; index as index">
+                <ng-container [formGroupName]="index">
+                  <mat-card class="bg-light mat-elevation-z8 my-3">
+                    <mat-card-header class="w-100 d-flex justify-content-end">
+                      <mat-icon color="warn" style="cursor: pointer" (click)="experiences.removeAt(index)">delete</mat-icon>
+                    </mat-card-header>
+                    <div class="row">
+                      <mat-form-field class="col-md-6 my-3">
+                        <input matInput matNativeControl placeholder="Digite o nome da empresa" formControlName="company" required>
+                        <mat-error *ngIf="experience.get('company')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-6 my-3">
+                        <input matInput matNativeControl placeholder="Digite o nome da ocupação" formControlName="title" required>
+                        <mat-error *ngIf="experience.get('title')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field class="col-md-6 my-3">
+                        <textarea matInput matNativeControl placeholder="Breve descrição das atividades" cdkTextareaAutosize="false" formControlName="activities" required></textarea>
+                        <mat-error *ngIf="experience.get('activities')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>calendary</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-3 my-3">
+                        <input matInput matNativeControl placeholder="Iniciou em" formControlName="started_at" required>
+                        <mat-error *ngIf="experience.get('started_at')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>calendary</mat-icon>
+                        <mat-hint>
+                          <mat-checkbox color="primary" formControlName="still_working" (change)="experience.get('finished_at')?.disabled ? experience.get('finished_at')?.enable() : experience.get('finished_at')?.disable()">Trabalho aqui</mat-checkbox>
+                        </mat-hint>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-3 my-3">
+                        <input matInput matNativeControl placeholder="Terminou em" formControlName="finished_at" required>
+                        <mat-error *ngIf="experience.get('finished_at')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field class="col-md-6 my-3">
+                        <mat-select placeholder="Escolha o Estado" formControlName="state" required>
+                          <mat-option [value]="null">--</mat-option>
+                          <mat-option *ngFor="let state of states" [value]="state.sigla">
+                            {{state.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="userDetailsForm.get('state')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>nacionality</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="col-md-6 my-3">
+                        <mat-select placeholder="Escolha a Cidade" formControlName="city" required>
+                          <mat-option [value]="null">--</mat-option>
+                          <mat-option *ngFor="let city of citiesExperience" [value]="city.name">
+                            {{city.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="userDetailsForm.get('city')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>nacionality</mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </mat-card>
+                </ng-container>
+              </ng-container>
+              <div class="w-100 mt-3 d-flex justify-content-center">
+                <button mat-raised-button color="primary" (click)="addExperience()">
+                  Adicionar experiência<mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </ng-container>
+          </form>
+          <button mat-raised-button matStepperNext class="float-end" [disabled]="!scholarityForm.invalid">Próximo</button>
+          <button mat-raised-button matStepperPrevious class="float-end mx-2">Anterior</button>
+        </mat-step>
+        <mat-step [stepControl]="skillsForm" [completed]="skillsForm.valid" [editable]="true" [hasError]="skillsForm.touched && skillsForm.invalid">
+          <ng-template matStepLabel>Habilidades</ng-template>
+          <form [formGroup]="skillsForm" class="mb-5">
+            <ng-container formArrayName="skills">
+              <ng-container *ngFor="let skill of skills.controls; index as index">
+                <ng-container [formGroupName]="index">
+                  <div class="bg-light container mat-elevation-z8 my-3">
+                    <div class="row d-flex align-items-center">
+                      <mat-form-field class="col-md-6 my-3">
+                        <input matInput matNativeControl placeholder="Digite o nome da habilidade" formControlName="name" required>
+                        <mat-error *ngIf="skill.get('name')?.hasError('required')">Campo obrigatório</mat-error>
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                      <div class="col-md-5 my-3">
+                        <p class="float-end">{{skill.get('rate')?.value}}/5</p>
+                        <mat-slider (change)="changeRate(index)" color="primary" class="w-100" min="0" max="5" step="1" thumbLabel tickInterval="1" formControlName="rate">
+                          <input matSliderThumb formControlName="rate"/>
+                        </mat-slider>
+                      </div>
+                      <mat-icon class="col-md-1 d-flex align-items-center" color="warn" style="cursor: pointer" (click)="skills.removeAt(index)">delete</mat-icon>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <div class="w-100 mt-3 d-flex justify-content-center">
+                <button mat-raised-button color="primary" (click)="addSkill()">
+                  Adicionar habilidade<mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </ng-container>
+          </form>
+          <button (click)="downloadCvAsPdf(content)" mat-raised-button matStepperNext class="float-end" color="primary" [disabled]="skillsForm.invalid">
+            Download <mat-icon *ngIf="!isGenerating">file_download</mat-icon>
+              <mat-icon *ngIf="isGenerating">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-icon>
+          </button>
+          <button mat-raised-button matStepperPrevious class="float-end mx-2">Anterior</button>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="col-md-5 mx-1 col-sm-12 mat-elevation-z8">
+    <mat-card-content #content>
+      <h1 class="text-bold">{{userDetailsForm.get('name')?.value}}</h1>
+      <p>{{userDetailsForm.get('nacionality')?.value}}, {{userDetailsForm.get('social_status')?.value}}, {{userDetailsForm.get('date_born')?.value | date: 'dd/MM/yyyy'}}</p>
+      <p>{{userDetailsForm.get('district')?.value}}, {{userDetailsForm.get('city')?.value}} - {{userDetailsForm.get('state')?.value}}</p>
+      <p><b>Telefone</b>: {{userDetailsForm.get('phone')?.value}}</p>
+      <p><b>Email</b>: {{userDetailsForm.get('email')?.value}}</p>
+      <div class="my-5"></div>
+      <h2 class="text-bold mb-1">Objetivo</h2>
+      <mat-divider class="bg-dark mb-1" inset></mat-divider>
+      <p>{{userDetailsForm.get('objective')?.value}}</p>
+      <div class="my-5"></div>
+      <h2 class="text-bold mb-1">Formação</h2>
+      <mat-divider class="bg-dark mb-1" inset></mat-divider>
+      <span *ngFor="let formation of formations.controls">
+        <div class="row mb-3">
+          <span class="col-md-4">
+            <p>{{formation.get('started_at')?.value | date: 'MM/yyyy'}} - {{formation.get('finished_at')?.disabled ? 'Em conclusão' : (formation.get('finished_at')?.value | date: 'MM/yyyy')}}</p>
+          </span>
+          <span class="col-md-8">
+            <h4><b>{{formation.get('scholarity_level')?.value}} em {{formation.get('title')?.value}}</b></h4>
+            <p>{{formation.get('institute')?.value}}, {{formation.get('city')?.value}} - {{formation.get('state')?.value}}</p>
+          </span>
+        </div>
+      </span>
+      <div class="my-5"></div>
+      <h2 class="text-bold mb-1">Experiência</h2>
+      <mat-divider class="bg-dark mb-1" inset></mat-divider>
+      <span *ngFor="let experience of experiences.controls">
+        <div class="row mb-3">
+          <span class="col-md-4">
+            <p>{{experience.get('started_at')?.value | date: 'MM/yyyy'}} - {{experience.get('finished_at')?.disabled ? 'Atualmente' : (experience.get('finished_at')?.value | date: 'MM/yyyy')}}</p>
+          </span>
+          <span class="col-md-8">
+            <h4><b>{{experience.get('title')?.value}}</b></h4>
+            <p>{{experience.get('company')?.value}}, {{experience.get('city')?.value}} - {{experience.get('state')?.value}}</p>
+          </span>
+        </div>
+      </span>
+      <div class="my-5"></div>
+      <h2 class="text-bold mb-1">Habilidades</h2>
+      <mat-divider class="bg-dark mb-1" inset></mat-divider>
+      <span *ngFor="let skill of skills.controls">
+        <div class="row mb-3">
+          <span class="col-md-2 text-center"><b>{{skill.get('rate')?.value}}</b> de 5</span>
+          <span class="col-md-4">{{skill.get('name')?.value}}</span>
+        </div>
+      </span>
+    </mat-card-content>
+  </mat-card>
+</main>
