@@ -1,27 +1,25 @@
-# CvCreator
+# CV Creator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.2.
+Aplicação em Angular 14 para montar um currículo a partir de um formulário em etapas e exportá-lo como PDF diretamente no navegador.
 
-## Development server
+## O que o projeto faz
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Reúne dados pessoais, formação, experiência profissional e habilidades em etapas separadas.
+- Consulta estados e municípios na API de localidades do IBGE.
+- Gera e baixa o currículo em PDF com `html2canvas` e `jsPDF`.
 
-## Code scaffolding
+## Tecnologias
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Angular 14, Angular Material, formulários reativos, TypeScript, `html2canvas` e `jsPDF`.
 
-## Build
+## Executar localmente
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm install
+npm start
+```
 
-## Running unit tests
+Abra `http://localhost:4200/` no navegador.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Este é um projeto de portfólio. Os dados preenchidos não são salvos pelo aplicativo.
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
